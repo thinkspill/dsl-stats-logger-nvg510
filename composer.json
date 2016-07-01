@@ -1,0 +1,17 @@
+{
+  "name": "thinkspill/logdsl",
+  "description": "logs info from at&t modem info about dsl line quality",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Ian Cook",
+      "email": "ian@thinkspill.org"
+    }
+  ],
+  "require": {
+    "symfony/dom-crawler": "^3.1",
+    "symfony/css-selector": "^3.1",
+    "digitalnature/php-ref": "^1.2"
+  }
+}
