@@ -20,7 +20,6 @@ $errors_per['DN']['fec'] = 0;
 $errors_per['UP']['fec'] = 0;
 
 while (true) {
-
     $modem_url = 'http://192.168.1.254/cgi-bin/dslstatistics.ha'; // @todo move to arg
     $html = @file_get_contents($modem_url);
 
@@ -55,7 +54,7 @@ while (true) {
     foreach ([
                  'ST',
                  'DN',
-                 'UP'
+                 'UP',
              ] as $G) {
         foreach ($vals[$G] as &$val) {
             $val = trim($crawler->filterXPath($val)->first()->text());
@@ -128,12 +127,13 @@ function ping_time($ping_target = '8.8.8.8')
     } else {
         echo '--';
     }
+
     return ob_get_clean();
 }
 
 function diff($val1, $val2)
 {
-    return (int)$val1 - (int)$val2;
+    return (int) $val1 - (int) $val2;
 }
 
 function get_error_rate($this_iter_error, $last_iter_error, $seconds_since_last_iteration)
@@ -142,6 +142,7 @@ function get_error_rate($this_iter_error, $last_iter_error, $seconds_since_last_
     if ($diff > 0) {
         return round($diff / $seconds_since_last_iteration, 2);
     }
+
     return 0;
 }
 
@@ -156,32 +157,32 @@ function get_output_datapoints($seconds_since_last_iteration, $vals, $errors_per
         [
             '',
             date('ymd H:i:s'),
-            15
+            15,
         ],
         [
             'il',
             $seconds_since_last_iteration,
-            3
+            3,
         ],
         [
             'sn↓',
             $vals['DN']['signal_to_noise_margin'],
-            4
+            4,
         ],
         [
             'sn↑',
             $vals['UP']['signal_to_noise_margin'],
-            4
+            4,
         ],
         [
             'la↓',
             $vals['DN']['line_attenuation'],
-            4
+            4,
         ],
         [
             'la↑',
             $vals['UP']['line_attenuation'],
-            4
+            4,
         ],
         [
             'sr↓',
@@ -191,46 +192,46 @@ function get_output_datapoints($seconds_since_last_iteration, $vals, $errors_per
         [
             'sr↑',
             $vals['UP']['sync_rate'],
-            5
+            5,
         ],
         [
             'cr↓',
             $vals['DN']['crc_errors'].' ('.$errors_per['DN']['crc'].')',
             8,
-            '-'
+            '-',
         ],
         [
             'cr↑',
             $vals['UP']['crc_errors'].' ('.$errors_per['UP']['crc'].')',
             8,
-            '-'
+            '-',
         ],
         [
             'fr↓',
             $vals['DN']['fec_errors'].' ('.$errors_per['DN']['fec'].')',
             13,
-            '-'
+            '-',
         ],
         [
             'fr↑',
             $vals['UP']['fec_errors'].' ('.$errors_per['UP']['fec'].')',
             4,
-            '-'
+            '-',
         ],
         [
             'bc',
             $vals['ST']['broadband_connection'],
-            3
+            3,
         ],
         [
             'ls',
             $vals['ST']['line_state'],
-            3
+            3,
         ],
         [
             'gg',
             ping_time(),
-            6
-        ]
+            6,
+        ],
     ];
 }
